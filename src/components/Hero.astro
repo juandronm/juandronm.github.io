@@ -1,0 +1,29 @@
+---
+import MagneticButton from "./MagneticButton";
+---
+
+<section class="mx-auto flex min-h-[85vh] max-w-5xl flex-col justify-center px-6 py-24">
+  <p class="mb-6 text-sm tracking-wide text-muted">[Your role] — based in [Your city]</p>
+
+  <h1 class="max-w-3xl font-serif text-5xl leading-[1.1] tracking-tight sm:text-7xl">
+    I build <em class="text-accent not-italic">[what you build]</em> that [the outcome you create].
+  </h1>
+
+  <p class="mt-8 max-w-lg text-lg leading-relaxed text-muted">
+    [One or two sentences on your focus — the kind of problems you like solving,
+    the tools you reach for, and who you do it for.]
+  </p>
+
+  <div class="mt-10 flex items-center gap-6">
+    <MagneticButton
+      href="#work"
+      className="inline-block rounded-full bg-fg px-7 py-3.5 text-sm font-medium text-bg transition-transform"
+      client:visible
+    >
+      See my work
+    </MagneticButton>
+    <a href="#contact" class="text-sm text-muted underline-offset-4 transition-colors hover:text-fg hover:underline">
+      Get in touch
+    </a>
+  </div>
+</section>
