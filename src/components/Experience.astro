@@ -1,0 +1,57 @@
+---
+import Reveal from "./Reveal";
+
+const roles = [
+  {
+    company: "YourEye Technologies",
+    role: "Computer Vision Intern",
+    dates: "Jul 2026 – Present",
+    bullets: [
+      "Building and deploying computer vision modules on security cameras using Python and YOLO object detection.",
+      "Built a real-time face recognition system with InsightFace (buffalo_l): a RetinaFace detector paired with an ArcFace ResNet-50 embedder producing 512-dimensional L2-normalized face embeddings.",
+      "Organized datasets into labeling and classification sets to support computer vision model training.",
+    ],
+  },
+  {
+    company: "Syntexchub",
+    role: "Artificial Intelligence Intern",
+    dates: "Mar 2026 – Apr 2026",
+    bullets: [
+      "Shipped three end-to-end AI projects spanning large language models, computer vision, and conversational systems.",
+      "Built a hand gesture recognition system with OpenCV and MediaPipe, classifying gestures from real-time webcam input.",
+      "Designed a voice-enabled chatbot using Llama (via HuggingFace) for response generation and Whisper-large-v3-turbo for speech-to-text, with prompt engineering for coherent multi-turn conversations.",
+      "Implemented a chain-of-thought prompting pipeline that broke complex queries into intermediate reasoning steps for explainable AI.",
+    ],
+  },
+];
+---
+
+<section id="experience" class="mx-auto max-w-5xl px-6 py-28">
+  <Reveal client:visible>
+    <h2 class="font-serif text-3xl tracking-tight sm:text-4xl">Experience</h2>
+  </Reveal>
+
+  <div class="mt-14 flex flex-col">
+    {
+      roles.map((entry, i) => (
+        <Reveal delay={i * 0.08} client:visible>
+          <div class="flex flex-col gap-4 border-t border-border py-8 first:border-t last:border-b sm:flex-row sm:justify-between">
+            <div class="shrink-0 sm:w-56">
+              <h3 class="font-serif text-2xl">{entry.company}</h3>
+              <p class="mt-2 text-sm text-muted">{entry.role}</p>
+              <p class="mt-1 text-sm text-muted">{entry.dates}</p>
+            </div>
+            <ul class="max-w-xl space-y-3 text-muted">
+              {entry.bullets.map((bullet) => (
+                <li class="flex gap-3 leading-relaxed">
+                  <span class="mt-2.5 size-1 shrink-0 rounded-full bg-accent" />
+                  <span>{bullet}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Reveal>
+      ))
+    }
+  </div>
+</section>

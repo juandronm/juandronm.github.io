@@ -1,43 +1,55 @@
-# Astro Starter Kit: Minimal
+# Portfolio — Juan Diego Ron Molina
+
+Personal portfolio site for Juan Diego Ron Molina, Computer Engineering — Artificial Intelligence, LLM and Computer Vision.
+
+## Stack
+
+- [Astro](https://astro.build) (static output) with [React](https://react.dev) islands for interactive components
+- [Tailwind CSS v4](https://tailwindcss.com)
+- [motion](https://motion.dev) for scroll reveals and the magnetic button effect
+- Self-hosted variable fonts ([Geist](https://vercel.com/font), Instrument Serif)
+
+## Requirements
+
+- [Node.js](https://nodejs.org) 22.12 or newer
+- npm (bundled with Node)
+
+## Getting started
+
+Install dependencies once:
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Then, from the project root:
 
-## 🚀 Project Structure
+| Command           | Action                                                    |
+| :----------------- | :--------------------------------------------------------- |
+| `npm run dev`     | Starts the local dev server at `http://localhost:4321`     |
+| `npm run build`   | Builds the production site to `./dist/`                    |
+| `npm run preview` | Serves the production build locally, to check before deploying |
 
-Inside of your Astro project, you'll see the following folders and files:
+While `npm run dev` is running, edits to files in `src/` hot-reload in the browser automatically.
+
+## Project structure
 
 ```text
 /
-├── public/
+├── public/                  # Static assets (favicon, images, etc.)
 ├── src/
-│   └── pages/
-│       └── index.astro
+│   ├── components/          # Astro components + React islands (Reveal, MagneticButton, ThemeToggle)
+│   ├── layouts/
+│   │   └── Layout.astro     # Base HTML shell: meta tags, fonts, dark-mode bootstrap
+│   ├── pages/
+│   │   └── index.astro      # The single-page site, assembled from the section components
+│   └── styles/
+│       └── global.css       # Design tokens (colors, fonts) and Tailwind entry point
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Each homepage section (Hero, Work, Experience, About, Contact) lives in its own file under `src/components/` — edit those directly to change copy, projects, or links.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Deploying
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+`npm run build` outputs a fully static site to `./dist/` that can be hosted on any static host (Vercel, Netlify, GitHub Pages, Cloudflare Pages, etc.) with no server runtime required.
