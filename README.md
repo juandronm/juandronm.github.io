@@ -48,11 +48,7 @@ While `npm run dev` is running, edits to files in `src/` hot-reload in the brows
 └── package.json
 ```
 
-<<<<<<< HEAD
 Each homepage section (Hero, Work, Experience, About, Contact) lives in its own file under `src/components/` — edit those directly to change copy, projects, or links.
-=======
-Each homepage section (Hero, Work, About, Contact) lives in its own file under `src/components/` — edit those directly to change copy, projects, or links.
->>>>>>> 34b20152effd6b370582b731e1d6ba3125321b80
 
 ## Deploying
 
