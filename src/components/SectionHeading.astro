@@ -1,0 +1,16 @@
+---
+import Reveal from "./Reveal";
+
+interface Props {
+  index: string;
+  label: string;
+  title: string;
+}
+
+const { index, label, title } = Astro.props;
+---
+
+<Reveal client:visible>
+  <p class="font-mono text-xs text-accent sm:text-sm">[ {index} ] <span class="text-muted">{label}</span></p>
+  <h2 class="mt-3 text-3xl font-semibold tracking-tight sm:text-5xl">{title}</h2>
+</Reveal>

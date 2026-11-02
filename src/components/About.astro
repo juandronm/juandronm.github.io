@@ -1,75 +1,94 @@
 ---
+// Techniques: staggered reveals, language bars that fill on scroll (CSS view timeline).
 import Reveal from "./Reveal";
-
-const skills = [
-  "Python",
-  "TensorFlow",
-  "scikit-learn",
-  "OpenCV",
-  "YOLO",
-  "HuggingFace",
-  "MediaPipe",
-  "Flask",
-  "SQL",
-  "Git",
-];
+import SectionHeading from "./SectionHeading.astro";
 
 const languages = [
-  "Spanish (native)",
-  "English (bilingual)",
-  "Turkish (professional)",
-  "French (basic)",
+  { name: "Spanish", level: "Native", pct: 100 },
+  { name: "English", level: "Bilingual", pct: 95 },
+  { name: "Turkish", level: "Professional", pct: 75 },
+  { name: "French", level: "Basic", pct: 30 },
+];
+
+const certificates = [
+  { name: "Claude Code 101", by: "Anthropic", date: "Jun 2026" },
+  { name: "Machine Learning A-Z", by: "SuperDataScience", date: "Sep 2025" },
+  { name: "The Complete Python Pro Bootcamp", by: "London App Brewery", date: "Aug 2025" },
+  { name: "Google Cloud Skills Boost", by: "Google", date: "Aug 2025" },
+  { name: "Introduction to Data Science", by: "Cisco", date: "Mar 2025" },
 ];
 ---
 
-<section id="about" class="border-t border-border bg-surface/50">
-  <div class="mx-auto max-w-5xl px-6 py-28">
+<section id="about" class="border-y border-border bg-surface/40">
+  <div class="mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-32">
+    <SectionHeading index="04" label="about" title="Background" />
+
     <Reveal client:visible>
-      <h2 class="font-serif text-3xl tracking-tight sm:text-4xl">About</h2>
-      <p class="mt-6 max-w-2xl leading-relaxed text-muted">
-        I'm a fourth-year Computer Engineering student at Gazi University in Ankara,
-        Türkiye, on a full scholarship. I care about building systems that combine
-        perception and language — from real-time computer vision on security cameras to
-        LLM-powered conversational tools — and I learn fastest by shipping projects
-        end-to-end rather than staying in notebooks.
+      <p class="mt-8 max-w-3xl text-base leading-relaxed text-muted sm:text-lg">
+        Fourth-year Computer Engineering student in Ankara on a fully funded Türkiye Scholarship. I like
+        the part of AI where models leave the notebook: making them fast on real GPUs, testing them
+        against benchmarks, and wiring them into systems people actually use.
       </p>
     </Reveal>
 
-    <div class="mt-16 grid gap-12 sm:grid-cols-3">
-      <Reveal client:visible>
-        <p class="text-sm tracking-wide text-muted">Education</p>
-        <div class="mt-4">
-          <p class="font-serif text-xl">Gazi University</p>
-          <p class="mt-1 text-sm text-muted">B.E. Computer Engineering</p>
-          <p class="mt-1 text-sm text-muted">Sep 2023 – Jul 2027 · GPA 3.41/4.00</p>
-          <p class="mt-3 text-sm text-muted">Turkish Scholarships recipient — fully funded</p>
+    <div class="mt-14 grid gap-6 lg:grid-cols-3">
+      <Reveal client:visible className="h-full">
+        <div class="h-full rounded-2xl border border-border bg-bg p-6">
+          <p class="font-mono text-xs text-accent">education</p>
+          <h3 class="mt-3 text-xl font-semibold">Gazi University</h3>
+          <p class="mt-1 text-muted">B.E. Computer Engineering</p>
+          <p class="mt-1 font-mono text-sm text-muted">Sep 2023 – Jul 2027 · GPA 3.41 / 4.00</p>
+          <div class="mt-6 border-t border-border pt-6">
+            <p class="font-mono text-xs text-accent">scholarship</p>
+            <p class="mt-3 font-medium">Türkiye Scholarships recipient</p>
+            <p class="mt-1 text-sm text-muted">Bachelor's degree, fully funded · Aug 2022 – Jul 2027</p>
+          </div>
         </div>
       </Reveal>
 
-      <Reveal delay={0.08} client:visible>
-        <p class="text-sm tracking-wide text-muted">Languages</p>
-        <ul class="mt-4 flex flex-wrap gap-2">
-          {
-            languages.map((language) => (
-              <li class="rounded-full border border-border bg-bg px-3 py-1.5 text-sm text-fg">
-                {language}
-              </li>
-            ))
-          }
-        </ul>
+      <Reveal delay={0.08} client:visible className="h-full">
+        <div class="h-full rounded-2xl border border-border bg-bg p-6">
+          <p class="font-mono text-xs text-accent">languages</p>
+          <ul class="mt-5 space-y-5">
+            {
+              languages.map((l) => (
+                <li>
+                  <div class="flex justify-between text-sm">
+                    <span class="font-medium">{l.name}</span>
+                    <span class="text-muted">{l.level}</span>
+                  </div>
+                  <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-border" aria-hidden="true">
+                    <div
+                      class="lang-bar h-full rounded-full bg-gradient-to-r from-accent to-accent-2"
+                      style={`--w:${l.pct / 100}`}
+                    />
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
       </Reveal>
 
-      <Reveal delay={0.16} client:visible>
-        <p class="text-sm tracking-wide text-muted">Tools & stack</p>
-        <ul class="mt-4 flex flex-wrap gap-2">
-          {
-            skills.map((skill) => (
-              <li class="rounded-full border border-border bg-bg px-3 py-1.5 text-sm text-fg">
-                {skill}
-              </li>
-            ))
-          }
-        </ul>
+      <Reveal delay={0.16} client:visible className="h-full">
+        <div class="h-full rounded-2xl border border-border bg-bg p-6">
+          <p class="font-mono text-xs text-accent">certificates</p>
+          <ul class="mt-5 space-y-4">
+            {
+              certificates.map((c) => (
+                <li class="flex gap-3">
+                  <span class="mt-0.5 text-accent" aria-hidden="true">✓</span>
+                  <div>
+                    <p class="text-sm font-medium">{c.name}</p>
+                    <p class="font-mono text-xs text-muted">
+                      {c.by} · {c.date}
+                    </p>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
       </Reveal>
     </div>
   </div>

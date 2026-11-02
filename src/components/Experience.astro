@@ -1,57 +1,82 @@
 ---
+// Techniques: scroll-drawn timeline line, staggered card reveals, detection-box hover.
 import Reveal from "./Reveal";
+import ScrollLine from "./ScrollLine";
+import SectionHeading from "./SectionHeading.astro";
 
 const roles = [
   {
     company: "YourEye Technologies",
-    role: "Computer Vision Intern",
-    dates: "Jul 2026 – Present",
+    role: "Artificial Intelligence Engineer",
+    dates: "May 2026 – Present",
+    current: true,
+    tags: ["TensorRT", "ONNX", "GStreamer", "BlenderProc", "DINOv2", "InsightFace"],
     bullets: [
-      "Building and deploying computer vision modules on security cameras using Python and YOLO object detection.",
-      "Built a real-time face recognition system with InsightFace (buffalo_l): a RetinaFace detector paired with an ArcFace ResNet-50 embedder producing 512-dimensional L2-normalized face embeddings.",
-      "Organized datasets into labeling and classification sets to support computer vision model training.",
+      "Engineered TensorRT workflows converting PyTorch / Ultralytics YOLO models into <b>FP16 TensorRT engines</b> via ONNX for live camera-analytics GPU servers, cutting inference latency and GPU memory load.",
+      "Deployed computer vision models on <b>NVIDIA RTX PRO 6000 Blackwell</b> servers with RTSP GStreamer pipelines streaming live security-camera feeds into real-time inference.",
+      "Built a parts-recognition system trained only on <b>BlenderProc synthetic data</b> from client CAD models: a detector + DINOv2 matcher enrolls new CADs in minutes without retraining and rejects unknown parts.",
+      "Identified <b>25/25</b> parts under unseen viewpoints, finishes and lighting, and <b>92/100</b> on complex backgrounds with 0 wrong labels; cut inference from <b>~620 to ~145 ms/frame</b> for live phone-camera use.",
+      "Built real-time face recognition with InsightFace (buffalo_l): RetinaFace detector + ArcFace ResNet-50 producing 512-d L2-normalized embeddings.",
     ],
   },
   {
     company: "Syntexchub",
     role: "Artificial Intelligence Intern",
     dates: "Mar 2026 – Apr 2026",
+    current: false,
+    tags: ["OpenCV", "MediaPipe", "Llama", "Whisper", "Prompt engineering"],
     bullets: [
-      "Shipped three end-to-end AI projects spanning large language models, computer vision, and conversational systems.",
-      "Built a hand gesture recognition system with OpenCV and MediaPipe, classifying gestures from real-time webcam input.",
-      "Designed a voice-enabled chatbot using Llama (via HuggingFace) for response generation and Whisper-large-v3-turbo for speech-to-text, with prompt engineering for coherent multi-turn conversations.",
-      "Implemented a chain-of-thought prompting pipeline that broke complex queries into intermediate reasoning steps for explainable AI.",
+      "Built a hand-gesture recognition system with OpenCV and MediaPipe, classifying gestures from real-time webcam input.",
+      "Designed a voice-enabled chatbot with Llama (HuggingFace) for responses and Whisper-large-v3-turbo for speech-to-text, with context handling for multi-turn conversations.",
+      "Implemented a chain-of-thought prompting pipeline breaking complex queries into intermediate reasoning steps for Explainable AI use cases.",
     ],
   },
 ];
 ---
 
-<section id="experience" class="mx-auto max-w-5xl px-6 py-28">
-  <Reveal client:visible>
-    <h2 class="font-serif text-3xl tracking-tight sm:text-4xl">Experience</h2>
-  </Reveal>
+<section id="experience" class="mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-32">
+  <SectionHeading index="01" label="experience" title="Where I've shipped" />
 
-  <div class="mt-14 flex flex-col">
+  <ol class="relative mt-14 space-y-10 pl-8 sm:pl-12">
+    <ScrollLine client:visible />
     {
       roles.map((entry, i) => (
-        <Reveal delay={i * 0.08} client:visible>
-          <div class="flex flex-col gap-4 border-t border-border py-8 first:border-t last:border-b sm:flex-row sm:justify-between">
-            <div class="shrink-0 sm:w-56">
-              <h3 class="font-serif text-2xl">{entry.company}</h3>
-              <p class="mt-2 text-sm text-muted">{entry.role}</p>
-              <p class="mt-1 text-sm text-muted">{entry.dates}</p>
-            </div>
-            <ul class="max-w-xl space-y-3 text-muted">
-              {entry.bullets.map((bullet) => (
-                <li class="flex gap-3 leading-relaxed">
-                  <span class="mt-2.5 size-1 shrink-0 rounded-full bg-accent" />
-                  <span>{bullet}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Reveal>
+        <li class="relative">
+          <span
+            aria-hidden="true"
+            class:list={[
+              "absolute top-7 -left-8 grid size-[15px] place-items-center rounded-full border-2 border-accent bg-bg sm:-left-12",
+              entry.current && "shadow-[0_0_14px_var(--accent)]",
+            ]}
+          >
+            <span class="size-1.5 rounded-full bg-accent" />
+          </span>
+          <Reveal delay={i * 0.1} client:visible>
+            <article class="bbox bbox-hover rounded-xl border border-border bg-surface/60 p-5 transition-colors hover:border-accent/40 sm:p-8">
+              <header class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+                <div>
+                  <h3 class="text-xl font-semibold sm:text-2xl">{entry.company}</h3>
+                  <p class="mt-1 text-accent">{entry.role}</p>
+                </div>
+                <p class="font-mono text-xs text-muted sm:text-sm">{entry.dates}</p>
+              </header>
+              <ul class="mt-6 space-y-3 text-sm leading-relaxed text-muted sm:text-base">
+                {entry.bullets.map((bullet) => (
+                  <li class="flex gap-3">
+                    <span class="mt-2 size-1 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                    <span class="[&_b]:font-medium [&_b]:text-fg" set:html={bullet} />
+                  </li>
+                ))}
+              </ul>
+              <ul class="mt-6 flex flex-wrap gap-2">
+                {entry.tags.map((tag) => (
+                  <li class="rounded-md border border-border px-2.5 py-1 font-mono text-xs text-muted">{tag}</li>
+                ))}
+              </ul>
+            </article>
+          </Reveal>
+        </li>
       ))
     }
-  </div>
+  </ol>
 </section>

@@ -1,67 +1,117 @@
 ---
+// Techniques: featured card with metrics strip, cursor spotlight + slight tilt (fine pointers only),
+// staggered grid reveals.
 import Reveal from "./Reveal";
+import SectionHeading from "./SectionHeading.astro";
+
+const featured = {
+  title: "HomeOps",
+  kicker: "Multi-agent household assistant · Oct 2026 – Present",
+  description:
+    "A Telegram assistant that runs fully on local open-weight LLMs. A LangGraph inventory agent picks tools while deterministic Python makes every pantry change; a vision model turns supermarket receipts into verified pantry items. Every agent ships with a benchmark and a ≥ 90% pass threshold.",
+  metrics: [
+    { value: "97%", label: "chat benchmark (35/36)" },
+    { value: "100%", label: "receipt lines found, none invented" },
+    { value: "20/20", label: "tool-calling benchmark" },
+    { value: "1.4 s", label: "median per message" },
+  ],
+  tags: ["LangGraph", "Ollama", "qwen3:8b", "qwen2.5vl:7b", "PostgreSQL", "Langfuse", "Docker Compose", "GitHub Actions"],
+};
 
 const projects = [
   {
     title: "Unmanned Ground Vehicle",
-    role: "Software & Computer Vision — Dec 2025 – Present",
+    kicker: "Autonomous navigation · TEKNOFEST · Dec 2025 – Present",
     description:
-      "Autonomous navigation software for an intelligent ground vehicle built for the TEKNOFEST competition — a real-time monitoring and control interface, plus dataset annotation for object detection and environmental perception.",
-    tags: ["Computer Vision", "Object Detection", "Data Annotation"],
-    href: "#",
+      "Software interface for monitoring and controlling an autonomous ground vehicle, with real-time visualization of navigation data and system status, plus image annotation for object detection and perception models.",
+    tags: ["Computer Vision", "Object Detection", "Robotics"],
   },
   {
     title: "Crime Rate Factors",
-    role: "Co-authored research paper — Apr 2025 – May 2025",
+    kicker: "Co-authored research paper · Apr – May 2025",
     description:
-      "Predicted U.S. violent crime from socio-economic data (UCI Communities & Crime, 1,994 samples). Built an end-to-end ML pipeline and benchmarked 15 algorithms; the final ANN model reached 96.33% accuracy.",
-    tags: ["scikit-learn", "SMOTE", "ANN"],
-    href: "#",
+      "Socio-economic predictors of U.S. violent crime (UCI dataset, 1,994 × 128). End-to-end pipeline with RF imputation, feature selection and SMOTE; benchmarked 15 algorithms and chose an ANN at 96.33% accuracy.",
+    tags: ["scikit-learn", "SMOTE", "ANN", "CatBoost"],
   },
   {
     title: "MiKuri",
-    role: "Solo project, OOP coursework — Nov 2024 – Dec 2024",
+    kicker: "Card battle game · OOP course · Nov – Dec 2024",
     description:
-      "Pokémon TCG-inspired card battle game in Java — a class hierarchy modeling cards, players, decks, and battle mechanics, with a JavaFX/MVC-style interface.",
+      "Pokémon TCG-inspired card battle game in Java: a class hierarchy for cards, players, decks and battles, with a JavaFX / FXML interface in an MVC-style split.",
     tags: ["Java", "JavaFX", "OOP"],
-    href: "#",
   },
 ];
 ---
 
-<section id="work" class="mx-auto max-w-5xl px-6 py-28">
-  <Reveal client:visible>
-    <h2 class="font-serif text-3xl tracking-tight sm:text-4xl">Selected work</h2>
-  </Reveal>
+<section id="projects" class="border-y border-border bg-surface/40">
+  <div class="mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-32">
+    <SectionHeading index="02" label="projects" title="Things I've built" />
 
-  <div class="mt-14 flex flex-col">
-    {
-      projects.map((project, i) => (
-        <Reveal delay={i * 0.08} client:visible>
-          <a
-            href={project.href}
-            class="group flex flex-col gap-4 border-t border-border py-8 transition-colors first:border-t last:border-b sm:flex-row sm:items-center sm:justify-between"
-          >
-            <div class="max-w-xl">
-              <h3 class="font-serif text-2xl transition-colors group-hover:text-accent">
-                {project.title}
-              </h3>
-              <p class="mt-2 text-sm text-muted">{project.role}</p>
-              <p class="mt-3 leading-relaxed text-muted">{project.description}</p>
-              <ul class="mt-4 flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <li class="rounded-full border border-border px-3 py-1 text-xs text-muted">
-                    {tag}
-                  </li>
+    <Reveal client:visible className="mt-14">
+      <article class="spotlight tilt group relative overflow-hidden rounded-2xl border border-border bg-bg p-6 transition-colors hover:border-accent/50 sm:p-10">
+        <div class="grid-bg absolute inset-0 -z-10 opacity-60" aria-hidden="true"></div>
+        <p class="font-mono text-xs text-accent sm:text-sm">★ featured · {featured.kicker}</p>
+        <h3 class="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">{featured.title}</h3>
+        <p class="mt-4 max-w-3xl leading-relaxed text-muted">{featured.description}</p>
+
+        <dl class="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-4">
+          {
+            featured.metrics.map((m) => (
+              <div class="bg-surface p-4 sm:p-5">
+                <dt class="sr-only">{m.label}</dt>
+                <dd class="font-mono text-2xl font-semibold text-accent">{m.value}</dd>
+                <dd class="mt-1 text-xs text-muted sm:text-sm" aria-hidden="true">{m.label}</dd>
+              </div>
+            ))
+          }
+        </dl>
+
+        <ul class="mt-6 flex flex-wrap gap-2">
+          {featured.tags.map((tag) => (
+            <li class="rounded-md border border-border px-2.5 py-1 font-mono text-xs text-muted">{tag}</li>
+          ))}
+        </ul>
+      </article>
+    </Reveal>
+
+    <div class="mt-6 grid gap-6 md:grid-cols-3">
+      {
+        projects.map((p, i) => (
+          <Reveal delay={i * 0.1} client:visible className="h-full">
+            <article class="spotlight tilt bbox bbox-hover flex h-full flex-col rounded-2xl border border-border bg-bg p-6 transition-colors hover:border-accent/40">
+              <p class="font-mono text-xs text-muted">{p.kicker}</p>
+              <h3 class="mt-3 text-xl font-semibold">{p.title}</h3>
+              <p class="mt-3 flex-1 text-sm leading-relaxed text-muted">{p.description}</p>
+              <ul class="mt-5 flex flex-wrap gap-2">
+                {p.tags.map((tag) => (
+                  <li class="rounded-md border border-border px-2 py-0.5 font-mono text-[11px] text-muted">{tag}</li>
                 ))}
               </ul>
-            </div>
-            <span class="shrink-0 text-sm text-muted transition-transform group-hover:translate-x-1 group-hover:text-accent">
-              View →
-            </span>
-          </a>
-        </Reveal>
-      ))
-    }
+            </article>
+          </Reveal>
+        ))
+      }
+    </div>
   </div>
 </section>
+
+<script is:inline>
+  // Spotlight follows the cursor; cards tilt a few degrees. Skipped on touch and reduced motion.
+  (function () {
+    if (matchMedia("(pointer: coarse)").matches) return;
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.querySelectorAll(".spotlight").forEach((card) => {
+      card.addEventListener("pointermove", (e) => {
+        const r = card.getBoundingClientRect();
+        const x = e.clientX - r.left, y = e.clientY - r.top;
+        card.style.setProperty("--x", x + "px");
+        card.style.setProperty("--y", y + "px");
+        if (!still && card.classList.contains("tilt")) {
+          const rx = (y / r.height - 0.5) * -4, ry = (x / r.width - 0.5) * 4;
+          card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+        }
+      });
+      card.addEventListener("pointerleave", () => { card.style.transform = ""; });
+    });
+  })();
+</script>

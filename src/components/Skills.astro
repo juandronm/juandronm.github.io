@@ -1,0 +1,45 @@
+---
+// Techniques: staggered panel reveals; chips light up on hover.
+import Reveal from "./Reveal";
+import SectionHeading from "./SectionHeading.astro";
+
+const groups = [
+  {
+    name: "Machine Learning & CV",
+    icon: "◎",
+    items: ["PyTorch", "TensorFlow", "scikit-learn", "Ultralytics YOLO", "OpenCV", "MediaPipe", "NLP", "Synthetic Data Generation", "Model Optimization", "Pandas", "NumPy", "Matplotlib"],
+  },
+  { name: "LLMs & Agents", icon: "⟡", items: ["LangGraph", "LangChain", "Ollama", "Langfuse", "Pydantic", "HuggingFace"] },
+  { name: "Inference & Deployment", icon: "▲", items: ["TensorRT", "ONNX", "GStreamer", "RTSP", "BlenderProc", "Flask", "Spring Boot", "REST APIs", "Web Scraping"] },
+  { name: "Data & DevOps", icon: "▦", items: ["PostgreSQL", "pgvector", "SQLAlchemy", "Alembic", "Docker Compose", "GitHub Actions", "pytest", "ruff", "mypy", "uv"] },
+  { name: "Programming", icon: "{}", items: ["Python", "R", "Java", "C / C++", "C#", "SQL", "HTML5 / CSS3", "Git"] },
+];
+---
+
+<section id="skills" class="mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-32">
+  <SectionHeading index="03" label="skills" title="Stack I work with" />
+
+  <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      groups.map((g, i) => (
+        <Reveal delay={i * 0.07} client:visible className={i === 0 ? "h-full sm:col-span-2" : "h-full"}>
+          <div class="h-full rounded-2xl border border-border bg-surface/60 p-6">
+            <h3 class="flex items-center gap-3 font-medium">
+              <span class="grid size-8 place-items-center rounded-lg bg-accent/10 font-mono text-sm text-accent" aria-hidden="true">
+                {g.icon}
+              </span>
+              {g.name}
+            </h3>
+            <ul class="mt-5 flex flex-wrap gap-2">
+              {g.items.map((s) => (
+                <li class="cursor-default rounded-full border border-border bg-bg px-3 py-1.5 text-sm text-muted transition-colors hover:border-accent hover:text-accent">
+                  {s}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Reveal>
+      ))
+    }
+  </div>
+</section>
