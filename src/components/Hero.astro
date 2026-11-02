@@ -1,31 +1,235 @@
 ---
+// Techniques: 6-layer depth stack, neural-net canvas (mouse-reactive), detection-box
+// clip-path draw-in, scan line, staggered word reveal, typewriter role, count-up stats.
 import MagneticButton from "./MagneticButton";
+import Reveal from "./Reveal";
+import CountUp from "./CountUp";
+
+const nameWords = ["Juan", "Diego", "Ron", "Molina"];
+
+const stats = [
+  { value: 25, suffix: "/25", label: "unseen parts identified from synthetic data only" },
+  { value: 97, suffix: "%", label: "pass rate of my LangGraph agent benchmark" },
+  { value: 145, suffix: " ms", label: "per frame after GPU optimization (from ~620)" },
+  { value: 3.41, decimals: 2, suffix: "", label: "GPA, Computer Engineering at Gazi University" },
+];
 ---
 
-<section class="mx-auto flex min-h-[85vh] max-w-5xl flex-col justify-center px-6 py-24">
-  <p class="mb-6 text-sm tracking-wide text-muted">Computer Engineering, Gazi University — Ankara, Türkiye</p>
+<section id="top" class="relative isolate overflow-hidden [&>[data-depth]]:[mask-image:linear-gradient(to_bottom,black_70%,transparent)]">
+  <!-- depth-0: calibration dot grid -->
+  <div class="grid-bg absolute inset-0 -z-30" data-depth="0" aria-hidden="true"></div>
 
-  <h1 class="max-w-3xl font-serif text-5xl leading-[1.1] tracking-tight sm:text-7xl">
-    I build with <em class="text-accent not-italic">AI, LLMs, and computer vision</em>.
-  </h1>
+  <!-- depth-1: atmospheric glows -->
+  <div class="absolute inset-0 -z-20" data-depth="1" aria-hidden="true">
+    <div class="glow absolute -left-24 top-10 size-80 bg-accent"></div>
+    <div class="glow absolute -right-20 bottom-0 size-96 bg-accent-2 [animation-delay:-6s]"></div>
+  </div>
 
-  <p class="mt-8 max-w-lg text-lg leading-relaxed text-muted">
-    Fourth-year Computer Engineering student currently interning in computer vision at
-    YourEye Technologies, after building LLM and CV projects at Syntexchub. I like shipping
-    end-to-end systems — from real-time perception to conversational AI — rather than staying
-    in notebooks.
-  </p>
+  <!-- depth-2: neural network canvas -->
+  <canvas id="net" class="absolute inset-0 -z-10 size-full opacity-60" data-depth="2" aria-hidden="true"></canvas>
 
-  <div class="mt-10 flex items-center gap-6">
-    <MagneticButton
-      href="#work"
-      className="inline-block rounded-full bg-fg px-7 py-3.5 text-sm font-medium text-bg transition-transform"
-      client:visible
-    >
-      See my work
-    </MagneticButton>
-    <a href="#contact" class="text-sm text-muted underline-offset-4 transition-colors hover:text-fg hover:underline">
-      Get in touch
-    </a>
+  <div class="mx-auto flex min-h-[calc(100svh-4rem)] max-w-6xl flex-col justify-center px-4 py-20 sm:px-6">
+    <Reveal client:load>
+      <p class="mb-8 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs text-muted sm:text-sm">
+        <span class="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-accent">
+          <span class="relative flex size-2">
+            <span class="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60"></span>
+            <span class="relative inline-flex size-2 rounded-full bg-accent"></span>
+          </span>
+          AI Engineer @ YourEye Technologies
+        </span>
+        <span>Ankara, Türkiye</span>
+      </p>
+    </Reveal>
+
+    <!-- depth-3: detection box framing the name -->
+    <div class="bbox bbox-draw relative w-fit px-4 py-3 sm:px-6 sm:py-5" data-depth="3">
+      <span
+        class="absolute -top-3 left-4 rounded-sm bg-accent px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-bg sm:left-6 sm:text-xs"
+        aria-hidden="true"
+      >
+        engineer · 0.99
+      </span>
+      <div class="scanline" aria-hidden="true"></div>
+
+      <!-- depth-4: headline -->
+      <h1
+        class="flex max-w-4xl flex-wrap gap-x-[0.25em] text-[clamp(2.6rem,9vw,6.5rem)] font-semibold leading-[0.95] tracking-tighter"
+        data-depth="4"
+      >
+        {
+          nameWords.map((word, i) => (
+            <span
+              class:list={["word-in", i > 1 && "bg-gradient-to-r from-accent to-accent-2 bg-clip-text text-transparent"]}
+              style={`animation-delay:${0.15 + i * 0.1}s`}
+            >
+              {word}
+            </span>
+          ))
+        }
+      </h1>
+    </div>
+
+    <p class="mt-8 font-mono text-base text-fg sm:text-xl" aria-live="off">
+      <span class="text-accent">&gt;&nbsp;</span><span id="role">Computer Vision</span><span class="caret text-accent" aria-hidden="true">▍</span>
+    </p>
+
+    <Reveal delay={0.5} client:load>
+      <p class="mt-6 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
+        Fourth-year Computer Engineering student at Gazi University. I ship machine learning and
+        computer vision into production, from TensorRT engines on Blackwell GPU servers to agentic LLM
+        systems running fully on local open-weight models.
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center gap-4 sm:gap-6">
+        <MagneticButton
+          href="#projects"
+          className="inline-block rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-bg shadow-[0_0_30px_-6px_var(--accent)]"
+          client:visible
+        >
+          View projects
+        </MagneticButton>
+        <a
+          href="/juan-diego-ron-molina-cv.pdf"
+          download
+          class="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3.5 font-mono text-sm text-muted transition-colors hover:border-accent hover:text-accent"
+        >
+          ↓ resume.pdf
+        </a>
+      </div>
+    </Reveal>
+
+    <dl class="mt-16 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+      {
+        stats.map((s, i) => (
+          <Reveal delay={0.6 + i * 0.08} client:visible>
+            <div class="h-full rounded-xl border border-border bg-surface/60 p-4 backdrop-blur-sm sm:p-5">
+              <dt class="sr-only">{s.label}</dt>
+              <dd class="font-mono text-2xl font-semibold text-accent sm:text-3xl">
+                <CountUp value={s.value} decimals={s.decimals ?? 0} suffix={s.suffix} client:visible />
+              </dd>
+              <dd class="mt-2 text-xs leading-snug text-muted sm:text-sm" aria-hidden="true">{s.label}</dd>
+            </div>
+          </Reveal>
+        ))
+      }
+    </dl>
   </div>
 </section>
+
+<script is:inline>
+  // Typewriter for the role line
+  (function () {
+    const el = document.getElementById("role");
+    if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const roles = ["Computer Vision", "Agentic LLM Systems", "Edge & GPU Inference", "Machine Learning"];
+    let r = 0, i = roles[0].length, del = true;
+    function tick() {
+      const word = roles[r];
+      i += del ? -1 : 1;
+      el.textContent = word.slice(0, i);
+      let wait = del ? 40 : 80;
+      if (!del && i === word.length) { del = true; wait = 1800; }
+      else if (del && i === 0) { del = false; r = (r + 1) % roles.length; wait = 300; }
+      setTimeout(tick, wait);
+    }
+    setTimeout(tick, 2200);
+  })();
+
+  // Neural-network canvas: drifting nodes, links when close, pulled toward the cursor.
+  (function () {
+    const c = document.getElementById("net");
+    if (!c) return;
+    const ctx = c.getContext("2d");
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const coarse = matchMedia("(pointer: coarse)").matches;
+    const N = coarse ? 25 : 60;
+    const R = coarse ? 110 : 140;
+    let w = 0, h = 0, pts = [], color = "#3ee6a8", running = false, raf = 0;
+    const mouse = { x: -1e4, y: -1e4 };
+
+    function readColor() {
+      color = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || color;
+    }
+    function resize() {
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      const nw = c.clientWidth;
+      h = c.clientHeight;
+      c.width = nw * dpr;
+      c.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // Mobile address-bar changes only alter height; keep nodes in that case.
+      if (nw !== w) {
+        w = nw;
+        pts = Array.from({ length: N }, () => ({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: (Math.random() - 0.5) * 0.35,
+        }));
+      }
+    }
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      if (!reduce) {
+        for (const p of pts) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > w) p.vx *= -1;
+          if (p.y < 0 || p.y > h) p.vy *= -1;
+          const dx = mouse.x - p.x, dy = mouse.y - p.y;
+          if (dx * dx + dy * dy < 180 * 180) {
+            p.x += dx * 0.006;
+            p.y += dy * 0.006;
+          }
+        }
+      }
+      ctx.strokeStyle = color;
+      ctx.fillStyle = color;
+      ctx.lineWidth = 1;
+      for (let i = 0; i < pts.length; i++) {
+        const a = pts[i];
+        for (let j = i + 1; j < pts.length; j++) {
+          const b = pts[j];
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < R) {
+            ctx.globalAlpha = (1 - d / R) * 0.35;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+        ctx.globalAlpha = 0.8;
+        ctx.beginPath();
+        ctx.arc(a.x, a.y, 1.6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (running && !reduce) raf = requestAnimationFrame(draw);
+    }
+
+    readColor();
+    resize();
+    draw();
+
+    // Only animate while the hero is on screen.
+    new IntersectionObserver(([e]) => {
+      running = e.isIntersecting;
+      cancelAnimationFrame(raf);
+      if (running && !reduce) raf = requestAnimationFrame(draw);
+    }).observe(c);
+
+    addEventListener("resize", () => { resize(); if (reduce) draw(); });
+    if (!coarse) {
+      c.parentElement.addEventListener("pointermove", (e) => {
+        const r = c.getBoundingClientRect();
+        mouse.x = e.clientX - r.left;
+        mouse.y = e.clientY - r.top;
+      });
+      c.parentElement.addEventListener("pointerleave", () => { mouse.x = mouse.y = -1e4; });
+    }
+    new MutationObserver(() => { readColor(); if (reduce) draw(); })
+      .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  })();
+</script>

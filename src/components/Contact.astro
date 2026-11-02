@@ -1,41 +1,78 @@
 ---
+// Techniques: terminal-style card, magnetic CTA, glow atmosphere.
 import Reveal from "./Reveal";
 import MagneticButton from "./MagneticButton";
+import SectionHeading from "./SectionHeading.astro";
 
 const socials = [
-  { label: "Email", href: "mailto:juanronmolina@gmail.com" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/juanronmolina/" },
+  { key: "email", label: "juanronmolina@gmail.com", href: "mailto:juanronmolina@gmail.com", external: false },
+  { key: "linkedin", label: "in/juanronmolina", href: "https://www.linkedin.com/in/juanronmolina/", external: true },
+  { key: "github", label: "github.com/juandronm", href: "https://github.com/juandronm", external: true },
 ];
 ---
 
-<section id="contact" class="mx-auto max-w-5xl px-6 py-28">
-  <Reveal client:visible>
-    <h2 class="font-serif text-3xl tracking-tight sm:text-4xl">Let's talk</h2>
-    <p class="mt-6 max-w-md leading-relaxed text-muted">
-      Currently a Computer Vision Intern at YourEye Technologies, and always open to new
-      opportunities in AI, LLMs, and computer vision. The fastest way to reach me is email.
-    </p>
+<section id="contact" class="relative isolate overflow-hidden">
+  <div class="absolute inset-0 -z-10 grid place-items-center" aria-hidden="true">
+    <div class="glow size-96 bg-accent opacity-20"></div>
+  </div>
+  <div class="mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-32">
+    <SectionHeading index="05" label="contact" title="Let's build something" />
 
-    <div class="mt-10 flex items-center gap-6">
-      <MagneticButton
-        href="mailto:juanronmolina@gmail.com"
-        className="inline-block rounded-full bg-fg px-7 py-3.5 text-sm font-medium text-bg transition-transform"
-        client:visible
-      >
-        juanronmolina@gmail.com
-      </MagneticButton>
+    <div class="mt-14 grid items-center gap-10 lg:grid-cols-2">
+      <Reveal client:visible>
+        <p class="max-w-md leading-relaxed text-muted">
+          Open to opportunities in computer vision, ML engineering and agentic LLM systems. Email is the
+          fastest way to reach me.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <MagneticButton
+            href="mailto:juanronmolina@gmail.com"
+            className="inline-block rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-bg shadow-[0_0_30px_-6px_var(--accent)]"
+            client:visible
+          >
+            Send an email
+          </MagneticButton>
+          <a
+            href="/juan-diego-ron-molina-cv.pdf"
+            download
+            class="inline-flex items-center rounded-full border border-border px-6 py-3.5 font-mono text-sm text-muted transition-colors hover:border-accent hover:text-accent"
+          >
+            ↓ resume.pdf
+          </a>
+        </div>
+      </Reveal>
+
+      <Reveal delay={0.1} client:visible>
+        <div class="overflow-hidden rounded-2xl border border-border bg-surface font-mono text-sm shadow-2xl">
+          <div class="flex items-center gap-2 border-b border-border px-4 py-3" aria-hidden="true">
+            <span class="size-3 rounded-full bg-[#ff5f57]"></span>
+            <span class="size-3 rounded-full bg-[#febc2e]"></span>
+            <span class="size-3 rounded-full bg-[#28c840]"></span>
+            <span class="ml-2 text-xs text-muted">~/contact</span>
+          </div>
+          <div class="space-y-3 p-5 sm:p-6">
+            <p><span class="text-accent">$</span> whoami --contact</p>
+            <ul class="space-y-2">
+              {
+                socials.map((s) => (
+                  <li class="flex flex-wrap gap-x-3">
+                    <span class="w-20 text-muted">{s.key}:</span>
+                    <a
+                      href={s.href}
+                      target={s.external ? "_blank" : undefined}
+                      rel={s.external ? "noopener" : undefined}
+                      class="break-all text-fg underline-offset-4 transition-colors hover:text-accent hover:underline"
+                    >
+                      {s.label}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+            <p class="text-muted" aria-hidden="true"><span class="text-accent">$</span> <span class="caret text-accent">▍</span></p>
+          </div>
+        </div>
+      </Reveal>
     </div>
-
-    <ul class="mt-14 flex gap-6 text-sm text-muted">
-      {
-        socials.map((social) => (
-          <li>
-            <a href={social.href} class="transition-colors hover:text-fg">
-              {social.label}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </Reveal>
+  </div>
 </section>
