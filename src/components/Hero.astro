@@ -4,15 +4,11 @@
 import MagneticButton from "./MagneticButton";
 import Reveal from "./Reveal";
 import CountUp from "./CountUp";
+import { t } from "../i18n";
 
+const h = t(Astro.currentLocale).hero;
 const nameWords = ["Juan", "Diego", "Ron", "Molina"];
-
-const stats = [
-  { value: 25, suffix: "/25", label: "unseen parts identified from synthetic data only" },
-  { value: 97, suffix: "%", label: "pass rate of my LangGraph agent benchmark" },
-  { value: 145, suffix: " ms", label: "per frame after GPU optimization (from ~620)" },
-  { value: 3.41, decimals: 2, suffix: "", label: "GPA, Computer Engineering at Gazi University" },
-];
+const stats = h.stats;
 ---
 
 <section id="top" class="relative isolate overflow-hidden [&>[data-depth]]:[mask-image:linear-gradient(to_bottom,black_70%,transparent)]">
@@ -36,9 +32,9 @@ const stats = [
             <span class="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60"></span>
             <span class="relative inline-flex size-2 rounded-full bg-accent"></span>
           </span>
-          AI Engineer @ YourEye Technologies
+          {h.badge}
         </span>
-        <span>Ankara, Türkiye</span>
+        <span>{h.location}</span>
       </p>
     </Reveal>
 
@@ -71,14 +67,12 @@ const stats = [
     </div>
 
     <p class="mt-8 font-mono text-base text-fg sm:text-xl" aria-live="off">
-      <span class="text-accent">&gt;&nbsp;</span><span id="role">Computer Vision</span><span class="caret text-accent" aria-hidden="true">▍</span>
+      <span class="text-accent">&gt;&nbsp;</span><span id="role" data-roles={JSON.stringify(h.roles)}>{h.roles[0]}</span><span class="caret text-accent" aria-hidden="true">▍</span>
     </p>
 
     <Reveal delay={0.5} client:load>
       <p class="mt-6 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-        Fourth-year Computer Engineering student at Gazi University. I ship machine learning and
-        computer vision into production, from TensorRT engines on Blackwell GPU servers to agentic LLM
-        systems running fully on local open-weight models.
+        {h.intro}
       </p>
 
       <div class="mt-10 flex flex-wrap items-center gap-4 sm:gap-6">
@@ -87,7 +81,7 @@ const stats = [
           className="inline-block rounded-full bg-accent px-7 py-3.5 text-sm font-semibold text-bg shadow-[0_0_30px_-6px_var(--accent)]"
           client:visible
         >
-          View projects
+          {h.cta}
         </MagneticButton>
         <a
           href="/juan-diego-ron-molina-cv.pdf"
@@ -122,7 +116,7 @@ const stats = [
   (function () {
     const el = document.getElementById("role");
     if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const roles = ["Computer Vision", "Agentic LLM Systems", "Edge & GPU Inference", "Machine Learning"];
+    const roles = JSON.parse(el.dataset.roles);
     let r = 0, i = roles[0].length, del = true;
     function tick() {
       const word = roles[r];

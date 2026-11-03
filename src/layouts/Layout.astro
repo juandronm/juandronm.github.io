@@ -1,18 +1,17 @@
 ---
 import "../styles/global.css";
+import { getLang, langs, pathFor, ui } from "../i18n";
 
 interface Props {
   title?: string;
   description?: string;
 }
 
-const {
-  title = "Juan Diego Ron Molina — AI Engineer · Computer Vision & Agentic LLMs",
-  description = "Juan Diego Ron Molina, AI Engineer at YourEye Technologies and Computer Engineering student at Gazi University. Computer vision, TensorRT deployment, and agentic LLM systems.",
-} = Astro.props;
+const lang = getLang(Astro.currentLocale);
+const { title = ui[lang].meta.title, description = ui[lang].meta.description } = Astro.props;
 ---
 
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,6 +21,8 @@ const {
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    {langs.map((l) => <link rel="alternate" hreflang={l} href={new URL(pathFor(l), Astro.site)} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL("/", Astro.site)} />
 
     <script is:inline>
       (function () {

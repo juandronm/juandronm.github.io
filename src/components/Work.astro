@@ -4,53 +4,20 @@
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading.astro";
 
-const featured = {
-  title: "HomeOps",
-  kicker: "Multi-agent household assistant · Oct 2026 – Present",
-  description:
-    "A Telegram assistant that runs fully on local open-weight LLMs. A LangGraph inventory agent picks tools while deterministic Python makes every pantry change; a vision model turns supermarket receipts into verified pantry items. Every agent ships with a benchmark and a ≥ 90% pass threshold.",
-  metrics: [
-    { value: "97%", label: "chat benchmark (35/36)" },
-    { value: "100%", label: "receipt lines found, none invented" },
-    { value: "20/20", label: "tool-calling benchmark" },
-    { value: "1.4 s", label: "median per message" },
-  ],
-  tags: ["LangGraph", "Ollama", "qwen3:8b", "qwen2.5vl:7b", "PostgreSQL", "Langfuse", "Docker Compose", "GitHub Actions"],
-};
+import { t } from "../i18n";
 
-const projects = [
-  {
-    title: "Unmanned Ground Vehicle",
-    kicker: "Autonomous navigation · TEKNOFEST · Dec 2025 – Sep 2026",
-    description:
-      "Software interface for monitoring and controlling an autonomous ground vehicle, with real-time visualization of navigation data and system status, plus image annotation for object detection and perception models.",
-    tags: ["Computer Vision", "Object Detection", "Robotics"],
-  },
-  {
-    title: "Crime Rate Factors",
-    kicker: "Co-authored research paper · Apr – May 2025",
-    description:
-      "Socio-economic predictors of U.S. violent crime (UCI dataset, 1,994 × 128). End-to-end pipeline with RF imputation, feature selection and SMOTE; benchmarked 15 algorithms and chose an ANN at 96.33% accuracy.",
-    tags: ["scikit-learn", "SMOTE", "ANN", "CatBoost"],
-  },
-  {
-    title: "MiKuri",
-    kicker: "Card battle game · OOP course · Nov – Dec 2024",
-    description:
-      "Pokémon TCG-inspired card battle game in Java: a class hierarchy for cards, players, decks and battles, with a JavaFX / FXML interface in an MVC-style split.",
-    tags: ["Java", "JavaFX", "OOP"],
-  },
-];
+const w = t(Astro.currentLocale).work;
+const { featured, projects } = w;
 ---
 
 <section id="projects" class="border-y border-border bg-surface/40">
   <div class="mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-32">
-    <SectionHeading index="02" label="projects" title="Things I've built" />
+    <SectionHeading index="02" label={w.label} title={w.title} />
 
     <Reveal client:visible className="mt-14">
       <article class="spotlight tilt group relative overflow-hidden rounded-2xl border border-border bg-bg p-6 transition-colors hover:border-accent/50 sm:p-10">
         <div class="grid-bg absolute inset-0 -z-10 opacity-60" aria-hidden="true"></div>
-        <p class="font-mono text-xs text-accent sm:text-sm">★ featured · {featured.kicker}</p>
+        <p class="font-mono text-xs text-accent sm:text-sm">★ {w.featuredLabel} · {featured.kicker}</p>
         <h3 class="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">{featured.title}</h3>
         <p class="mt-4 max-w-3xl leading-relaxed text-muted">{featured.description}</p>
 

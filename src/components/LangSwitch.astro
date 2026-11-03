@@ -1,0 +1,39 @@
+---
+import { getLang, langs, pathFor, ui } from "../i18n";
+
+const current = getLang(Astro.currentLocale);
+const names = { en: "English", es: "Español", tr: "Türkçe" };
+---
+
+<div
+  role="group"
+  aria-label={ui[current].nav.language}
+  class="lang-switch flex h-9 items-center rounded-full border border-border p-0.5 font-mono text-[11px] uppercase"
+>
+  {
+    langs.map((l) => (
+      <a
+        href={pathFor(l)}
+        hreflang={l}
+        lang={l}
+        aria-label={names[l]}
+        aria-current={l === current ? "page" : undefined}
+        class:list={[
+          "grid h-full place-items-center rounded-full px-2 transition-colors",
+          l === current ? "bg-accent/15 text-accent" : "text-muted hover:text-accent",
+        ]}
+      >
+        {l}
+      </a>
+    ))
+  }
+</div>
+
+<script is:inline>
+  // Keep the visitor on the same section when switching language.
+  document.querySelectorAll(".lang-switch a").forEach((a) => {
+    a.addEventListener("click", () => {
+      if (location.hash) a.href = a.getAttribute("href") + location.hash;
+    });
+  });
+</script>
