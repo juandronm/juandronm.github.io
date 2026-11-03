@@ -1,8 +1,9 @@
 import { en } from "./en";
 import { es } from "./es";
 import { tr } from "./tr";
+import { fr } from "./fr";
 
-export const ui = { en, es, tr };
+export const ui = { en, es, tr, fr };
 export type Lang = keyof typeof ui;
 export const langs = Object.keys(ui) as Lang[];
 
