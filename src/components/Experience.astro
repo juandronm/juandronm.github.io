@@ -3,39 +3,14 @@
 import Reveal from "./Reveal";
 import ScrollLine from "./ScrollLine";
 import SectionHeading from "./SectionHeading.astro";
+import { t } from "../i18n";
 
-const roles = [
-  {
-    company: "YourEye Technologies",
-    role: "Artificial Intelligence Engineer",
-    dates: "May 2026 – Present",
-    current: true,
-    tags: ["TensorRT", "ONNX", "GStreamer", "BlenderProc", "DINOv2", "InsightFace"],
-    bullets: [
-      "Engineered TensorRT workflows converting PyTorch / Ultralytics YOLO models into <b>FP16 TensorRT engines</b> via ONNX for live camera-analytics GPU servers, cutting inference latency and GPU memory load.",
-      "Deployed computer vision models on <b>NVIDIA RTX PRO 6000 Blackwell</b> servers with RTSP GStreamer pipelines streaming live security-camera feeds into real-time inference.",
-      "Built a parts-recognition system trained only on <b>BlenderProc synthetic data</b> from client CAD models: a detector + DINOv2 matcher enrolls new CADs in minutes without retraining and rejects unknown parts.",
-      "Identified <b>25/25</b> parts under unseen viewpoints, finishes and lighting, and <b>92/100</b> on complex backgrounds with 0 wrong labels; cut inference from <b>~620 to ~145 ms/frame</b> for live phone-camera use.",
-      "Built real-time face recognition with InsightFace (buffalo_l): RetinaFace detector + ArcFace ResNet-50 producing 512-d L2-normalized embeddings.",
-    ],
-  },
-  {
-    company: "Syntexchub",
-    role: "Artificial Intelligence Intern",
-    dates: "Mar 2026 – Apr 2026",
-    current: false,
-    tags: ["OpenCV", "MediaPipe", "Llama", "Whisper", "Prompt engineering"],
-    bullets: [
-      "Built a hand-gesture recognition system with OpenCV and MediaPipe, classifying gestures from real-time webcam input.",
-      "Designed a voice-enabled chatbot with Llama (HuggingFace) for responses and Whisper-large-v3-turbo for speech-to-text, with context handling for multi-turn conversations.",
-      "Implemented a chain-of-thought prompting pipeline breaking complex queries into intermediate reasoning steps for Explainable AI use cases.",
-    ],
-  },
-];
+const x = t(Astro.currentLocale).experience;
+const roles = x.roles;
 ---
 
 <section id="experience" class="mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-32">
-  <SectionHeading index="01" label="experience" title="Where I've shipped" />
+  <SectionHeading index="01" label={x.label} title={x.title} />
 
   <ol class="relative mt-14 space-y-10 pl-8 sm:pl-12">
     <ScrollLine client:visible />

@@ -2,7 +2,9 @@
 // Techniques: staggered panel reveals; chips light up on hover.
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading.astro";
+import { t } from "../i18n";
 
+const s = t(Astro.currentLocale).skills;
 const groups = [
   {
     name: "Machine Learning & CV",
@@ -17,7 +19,7 @@ const groups = [
 ---
 
 <section id="skills" class="mx-auto max-w-6xl px-4 py-24 sm:px-6 sm:py-32">
-  <SectionHeading index="03" label="skills" title="Stack I work with" />
+  <SectionHeading index="03" label={s.label} title={s.title} />
 
   <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
     {
@@ -28,7 +30,7 @@ const groups = [
               <span class="grid size-8 place-items-center rounded-lg bg-accent/10 font-mono text-sm text-accent" aria-hidden="true">
                 {g.icon}
               </span>
-              {g.name}
+              {s.groups[i]}
             </h3>
             <ul class="mt-5 flex flex-wrap gap-2">
               {g.items.map((s) => (

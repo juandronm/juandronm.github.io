@@ -1,6 +1,11 @@
+---
+import { t } from "../i18n";
+const f = t(Astro.currentLocale).footer;
+---
+
 <footer class="border-t border-border">
   <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 py-8 font-mono text-xs text-muted sm:flex-row sm:px-6">
     <p>&copy; {new Date().getFullYear()} Juan Diego Ron Molina</p>
-    <p>Built with Astro · Tailwind · Motion</p>
+    <p>{f.built}</p>
   </div>
 </footer>
